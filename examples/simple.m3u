@@ -1,0 +1,8 @@
+#EXTM3U
+#EXTINF:215,Example Artist - First Track
+first-track.mp3
+#EXTINF:187,Example Artist - Second Track
+music/second-track.flac
+#EXTINF:-1,Example Radio
+https://radio.example.org/live.aac
+C:\Music\Example Artist\Third Track.mp3

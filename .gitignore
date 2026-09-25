@@ -1,0 +1,8 @@
+node_modules/
+.pnpm-store/
+.ts-cache/
+build/
+*.wasm
+*.so
+*.dylib
+.DS_Store

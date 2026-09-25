@@ -1,0 +1,8 @@
+#EXTM3U
+#PLAYLIST:Example Channels
+#EXTINF:-1 tvg-id="news.example" tvg-name="Example News" tvg-logo="https://example.com/logos/news.png" tvg-chno="1" group-title="News",Example News
+https://live.example.com/news/index.m3u8
+#EXTINF:-1 tvg-id="weather.example" tvg-name="Example Weather" tvg-country="SE" tvg-language="Swedish" group-title="News",Example Weather
+https://live.example.com/weather/index.m3u8
+#EXTINF:-1 tvg-id="radio.example" radio=true group-title="Radio",Example Radio
+https://live.example.com/radio/index.m3u8

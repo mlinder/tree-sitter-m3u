@@ -1,0 +1,126 @@
+==================
+Encryption key with hex IV
+==================
+
+#EXT-X-KEY:METHOD=SAMPLE-AES,URI="skd://stream.example.com/key",IV=0X9c7db8778570d05c3177c349fd9236aa
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value)))))
+
+==================
+Low-Latency HLS tags
+==================
+
+#EXT-X-SERVER-CONTROL:CAN-BLOCK-RELOAD=YES,PART-HOLD-BACK=12.0
+#EXT-X-PART-INF:PART-TARGET=3.0
+#EXT-X-PART:URI="filePart.ts",DURATION=2.0,INDEPENDENT=YES
+#EXT-X-PRELOAD-HINT:TYPE=PART,URI="filePart.1.ts"
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string)))))
+
+==================
+Multivariant playlist
+==================
+
+#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="aud1",NAME="English",DEFAULT=YES,URI="a1.m3u8"
+#EXT-X-STREAM-INF:BANDWIDTH=2222222,CODECS="avc1,mp4a",RESOLUTION=1280x720,CLOSED-CAPTIONS=NONE
+v0/prog_index.m3u8
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=151381,URI="iframe.m3u8"
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))))
+  (uri)
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string)))))

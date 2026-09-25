@@ -1,0 +1,102 @@
+==================
+Header
+==================
+
+#EXTM3U
+
+---
+
+(playlist (header))
+
+==================
+Multivariant playlist variant
+==================
+
+#EXT-X-STREAM-INF:BANDWIDTH=150000,RESOLUTION=416x234,CODECS="avc1.42e00a,mp4a.40.2"
+http://example.com/low/index.m3u8
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))))
+  (uri))
+
+==================
+Segment with title
+==================
+
+#EXTINF:296,Example Artist - Example Track
+song.flac
+
+---
+
+(playlist
+  (extinf
+    duration: (duration)
+    title: (title))
+  (uri))
+
+==================
+Segment with empty title
+==================
+
+#EXTINF:7.975,
+segment-001.ts
+
+---
+
+(playlist
+  (extinf
+    duration: (duration))
+  (uri))
+
+==================
+IPTV attributes
+==================
+
+#EXTINF:-1 tvg-id="news.example" radio=true group-title="News",Example News
+https://live.example.com/news/index.m3u8
+
+---
+
+(playlist
+  (extinf
+    duration: (duration)
+    (attribute
+      name: (tag_word)
+      value: (quoted_string))
+    (attribute
+      name: (tag_word)
+      value: (unquoted_value))
+    (attribute
+      name: (tag_word)
+      value: (quoted_string))
+    title: (title))
+  (uri))
+
+==================
+Enum value and comment
+==================
+
+#EXT-X-PLAYLIST-TYPE:VOD
+# a plain comment
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)))
+  (comment))

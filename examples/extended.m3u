@@ -1,0 +1,22 @@
+#EXTM3U
+#PLAYLIST:Example Playlist
+# Extended M3U directives used by players, IPTV clients, M3A and VLC
+
+#EXTALB:Example Album (2026)
+#EXTART:Example Artist
+#EXTGENRE:Ambient
+#EXTALBUMARTURL:https://example.com/cover.jpg
+#EXTGRP:Example Group
+#EXTINF:241 logo="cover.jpg",Example Artist - Opening
+01-opening.mp3
+#EXTVLCOPT:start-time=12.5
+#EXTINF:198,Example Artist - Interlude
+02-interlude.mp3
+
+# M3A (single-file album) directives
+#EXTM3A
+#EXTBYT:48213
+#EXTBIN:
+
+# Loosely formatted HLS attributes, as seen in the wild
+#EXT-X-MEDIA:NAME="English", TYPE=AUDIO, GROUP-ID="audio", DEFAULT=YES, URI="english.m3u8"

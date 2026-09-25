@@ -1,0 +1,21 @@
+{
+  "name": "tree-sitter-m3u",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for M3U and M3U8 playlists, including Extended M3U, IPTV and HLS",
+  "license": "MIT",
+  "author": "Marcus Linder <mlinder@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlinder/tree-sitter-m3u.git"
+  },
+  "keywords": ["tree-sitter", "parser", "m3u", "m3u8", "hls", "playlist"],
+  "private": true,
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "parse": "tree-sitter parse",
+    "test": "tree-sitter test && tree-sitter parse --quiet examples/*"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "0.25.10"
+  }
+}

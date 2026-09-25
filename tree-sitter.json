@@ -1,0 +1,21 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "m3u",
+      "camelcase": "M3u",
+      "title": "M3U",
+      "scope": "source.m3u",
+      "path": ".",
+      "file-types": ["m3u", "m3u8"],
+      "injection-regex": "^(m3u8?|hls)$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for M3U and M3U8 playlists, including Extended M3U, IPTV and HLS",
+    "authors": [{ "name": "Marcus Linder", "email": "mlinder@gmail.com" }],
+    "links": { "repository": "https://github.com/mlinder/tree-sitter-m3u" }
+  }
+}

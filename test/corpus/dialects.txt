@@ -1,0 +1,75 @@
+==================
+IPTV playlist directive
+==================
+
+#EXTM3U
+#PLAYLIST:Music TV
+#EXTGRP:Foreign Channels
+
+---
+
+(playlist
+  (header)
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)
+      (tag_word)))
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)
+      (tag_word))))
+
+==================
+Empty directive value
+==================
+
+#EXTBIN:
+#EXT-X-SESSION-KEY:
+
+---
+
+(playlist
+  (tag
+    (tag_name))
+  (tag
+    (tag_name)))
+
+==================
+Byterange
+==================
+
+#EXT-X-BYTERANGE:1024@256000
+fileSequence266.ts
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)))
+  (uri))
+
+==================
+Variable definition and substitution
+==================
+
+#EXT-X-DEFINE:NAME="segment",VALUE="fileSequence"
+{$segment}268.ts
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))))
+  (uri
+    (variable)))
