@@ -6,7 +6,8 @@ Header
 
 ---
 
-(playlist (header))
+(playlist
+  (header))
 
 ==================
 Multivariant playlist variant
@@ -18,19 +19,20 @@ http://example.com/low/index.m3u8
 ---
 
 (playlist
-  (tag
-    (tag_name)
-    (tag_content
-      (attribute
-        name: (tag_word)
-        value: (unquoted_value))
-      (attribute
-        name: (tag_word)
-        value: (unquoted_value))
-      (attribute
-        name: (tag_word)
-        value: (quoted_string))))
-  (uri))
+  (variant_stream
+    (tag
+      (tag_name)
+      (tag_content
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))
+        (attribute
+          name: (tag_word)
+          value: (quoted_string))))
+    uri: (uri)))
 
 ==================
 Segment with title
@@ -42,10 +44,11 @@ song.flac
 ---
 
 (playlist
-  (extinf
-    duration: (duration)
-    title: (title))
-  (uri))
+  (media_segment
+    (extinf
+      duration: (duration)
+      title: (title))
+    uri: (uri)))
 
 ==================
 Segment with empty title
@@ -57,9 +60,10 @@ segment-001.ts
 ---
 
 (playlist
-  (extinf
-    duration: (duration))
-  (uri))
+  (media_segment
+    (extinf
+      duration: (duration))
+    uri: (uri)))
 
 ==================
 IPTV attributes
@@ -71,19 +75,20 @@ https://live.example.com/news/index.m3u8
 ---
 
 (playlist
-  (extinf
-    duration: (duration)
-    (attribute
-      name: (tag_word)
-      value: (quoted_string))
-    (attribute
-      name: (tag_word)
-      value: (unquoted_value))
-    (attribute
-      name: (tag_word)
-      value: (quoted_string))
-    title: (title))
-  (uri))
+  (media_segment
+    (extinf
+      duration: (duration)
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      title: (title))
+    uri: (uri)))
 
 ==================
 Enum value and comment

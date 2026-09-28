@@ -17,31 +17,74 @@ module.exports = grammar({
   // line-oriented and consumes line breaks explicitly in `playlist`.
   extras: _ => [/[\t ]/],
 
-  // A directive value is ambiguous until we see whether the first word
-  // is followed by '=': either an attribute list or bare words. The
-  // one-token lookahead resolves this, and `prec.dynamic` on `attribute`
-  // picks the structured reading whenever both survive.
-  conflicts: $ => [],
+  // Whether the lines after an #EXTINF or #EXT-X-STREAM-INF tag belong to
+  // it is only known once a URI (or something else) shows up. Both
+  // readings are kept and scored with `prec.dynamic`: +1 for attaching a
+  // URI, +1 for every #EXTINF and #EXT-X-STREAM-INF parsed as such. The
+  // second rule stops a segment from absorbing the next #EXTINF as an
+  // ordinary tag.
+  conflicts: $ => [
+    [$.media_segment],
+    [$.variant_stream],
+  ],
 
   rules: {
-    playlist: $ => repeat(choice($.header, $.extinf, $.tag, $.comment, $.uri, /\r?\n/)),
+    playlist: $ => repeat(choice(
+      $.header,
+      $.media_segment,
+      $.variant_stream,
+      $.tag,
+      $.comment,
+      $.uri,
+      $._newline,
+    )),
+
+    _newline: _ => /\r?\n/,
+
+    // Keyword tokens share tag_name's precedence, so the longest match wins
+    // and e.g. #EXTINFO is an (unknown) tag rather than #EXTINF plus a URI.
 
     // #EXTM3U — the extended M3U header
-    header: _ => token(prec(3, '#EXTM3U')),
+    header: _ => token(prec(1, '#EXTM3U')),
+
+    // #EXTINF, the segment tags that follow it, and the URI they describe.
+    // Also plain M3U and IPTV entries. Without a URI, just the #EXTINF.
+    media_segment: $ => seq(
+      $.extinf,
+      optional(prec.dynamic(1, seq(
+        repeat1(choice($._newline, $.comment, $.tag)),
+        field('uri', $.uri),
+      ))),
+    ),
+
+    // #EXT-X-STREAM-INF and the next URI line, the variant's Media Playlist.
+    // Without a URI, just the tag.
+    variant_stream: $ => seq(
+      alias($._stream_inf, $.tag),
+      optional(prec.dynamic(1, seq(
+        repeat1(choice($._newline, $.comment, $.tag)),
+        field('uri', $.uri),
+      ))),
+    ),
+
+    _stream_inf: $ => prec.dynamic(1, prec.right(seq(
+      alias(token(prec(1, '#EXT-X-STREAM-INF')), $.tag_name),
+      optional(seq(':', optional($.tag_content))),
+    ))),
 
     // #EXTINF:<duration>[ <iptv attributes>][,<title>]
     // `prec.right` makes the trailing title greedy: a `{$...}` variable
     // after the comma belongs to the title rather than starting a new
     // (newline-less) playlist entry.
-    extinf: $ => prec.right(seq(
-      token(prec(2, '#EXTINF')),
+    extinf: $ => prec.dynamic(1, prec.right(seq(
+      token(prec(1, '#EXTINF')),
       optional(seq(
         ':',
         field('duration', $.duration),
         optional(repeat1(choice($.attribute, $.tag_word))),
         optional(seq(',', optional(field('title', $.title)))),
       )),
-    )),
+    ))),
 
     duration: _ => token(prec(2, /-?[0-9]+(\.[0-9]+)?/)),
 

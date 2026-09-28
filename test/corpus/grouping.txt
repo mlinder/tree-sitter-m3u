@@ -1,0 +1,127 @@
+==================
+Variant stream with comment and blank line before its URI
+==================
+
+#EXT-X-STREAM-INF:BANDWIDTH=440000
+
+# comment
+mid/index.m3u8
+
+---
+
+(playlist
+  (variant_stream
+    (tag
+      (tag_name)
+      (tag_content
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))))
+    (comment)
+    uri: (uri)))
+
+==================
+Media segment with tags before its URI
+==================
+
+#EXTINF:6.006,
+#EXT-X-BYTERANGE:1024@0
+#EXT-X-DISCONTINUITY
+segment-002.ts
+
+---
+
+(playlist
+  (media_segment
+    (extinf
+      duration: (duration))
+    (tag
+      (tag_name)
+      (tag_content
+        (tag_word)))
+    (tag
+      (tag_name))
+    uri: (uri)))
+
+==================
+Consecutive segments without URIs stay separate
+==================
+
+#EXTINF:5,
+#EXTINF:4,Title
+segment.ts
+
+---
+
+(playlist
+  (media_segment
+    (extinf
+      duration: (duration)))
+  (media_segment
+    (extinf
+      duration: (duration)
+      title: (title))
+    uri: (uri)))
+
+==================
+Tags between segments are not part of either
+==================
+
+#EXTINF:6,
+a.ts
+#EXT-X-DISCONTINUITY
+#EXTINF:6,
+b.ts
+
+---
+
+(playlist
+  (media_segment
+    (extinf
+      duration: (duration))
+    uri: (uri))
+  (tag
+    (tag_name))
+  (media_segment
+    (extinf
+      duration: (duration))
+    uri: (uri)))
+
+==================
+Plain URIs are not grouped
+==================
+
+#EXTM3U
+first.mp3
+second.mp3
+
+---
+
+(playlist
+  (header)
+  (uri)
+  (uri))
+
+==================
+Longer names are tags, not keywords
+==================
+
+#EXTINFO:1
+#EXTM3UX
+#EXT-X-STREAM-INFO:X=1
+
+---
+
+(playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)))
+  (tag
+    (tag_name))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value)))))

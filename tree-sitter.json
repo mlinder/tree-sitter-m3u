@@ -12,7 +12,7 @@
     }
   ],
   "metadata": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "license": "MIT",
     "description": "Tree-sitter grammar for M3U and M3U8 playlists, including Extended M3U, IPTV and HLS",
     "authors": [{ "name": "Marcus Linder", "email": "mlinder@gmail.com" }],

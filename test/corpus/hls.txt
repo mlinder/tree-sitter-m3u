@@ -99,22 +99,23 @@ v0/prog_index.m3u8
       (attribute
         name: (tag_word)
         value: (quoted_string))))
-  (tag
-    (tag_name)
-    (tag_content
-      (attribute
-        name: (tag_word)
-        value: (unquoted_value))
-      (attribute
-        name: (tag_word)
-        value: (quoted_string))
-      (attribute
-        name: (tag_word)
-        value: (unquoted_value))
-      (attribute
-        name: (tag_word)
-        value: (unquoted_value))))
-  (uri)
+  (variant_stream
+    (tag
+      (tag_name)
+      (tag_content
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))
+        (attribute
+          name: (tag_word)
+          value: (quoted_string))
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))))
+    uri: (uri))
   (tag
     (tag_name)
     (tag_content

@@ -70,6 +70,40 @@
     }
   },
   {
+    "type": "media_segment",
+    "named": true,
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "uri",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "extinf",
+          "named": true
+        },
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "playlist",
     "named": true,
     "root": true,
@@ -83,11 +117,11 @@
           "named": true
         },
         {
-          "type": "extinf",
+          "type": "header",
           "named": true
         },
         {
-          "type": "header",
+          "type": "media_segment",
           "named": true
         },
         {
@@ -96,6 +130,10 @@
         },
         {
           "type": "uri",
+          "named": true
+        },
+        {
+          "type": "variant_stream",
           "named": true
         }
       ]
@@ -168,6 +206,36 @@
       "types": [
         {
           "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variant_stream",
+    "named": true,
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "uri",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "tag",
           "named": true
         }
       ]

@@ -16,6 +16,29 @@ Directives are parsed generically (`#EXT…` name plus attribute list), so tags
 added in later revisions of the HLS specification parse without grammar
 changes.
 
+## Syntax tree
+
+```
+(playlist
+  (header)                      ; #EXTM3U
+  (tag (tag_name) (tag_content  ; #EXT-X-VERSION:7, #EXT-X-MEDIA:…
+    (attribute name: (tag_word) value: (unquoted_value | quoted_string))))
+  (variant_stream               ; #EXT-X-STREAM-INF and its URI line
+    (tag …)
+    uri: (uri))
+  (media_segment                ; #EXTINF, following tags, URI line
+    (extinf duration: (duration) (attribute)* title: (title))
+    (tag …)*
+    uri: (uri))
+  (uri)                         ; plain M3U entry
+  (comment))
+```
+
+`variant_stream` and `media_segment` group a tag with the URI it applies to,
+with any comments and blank lines (and, for segments, tags such as
+`#EXT-X-BYTERANGE`) in between. Without a following URI they contain only the
+tag, and `uri` is absent.
+
 Used by the [M3U extension for Zed](https://github.com/mlinder/zed-m3u).
 
 ## Development
