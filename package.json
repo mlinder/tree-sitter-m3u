@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-m3u",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Tree-sitter grammar for M3U and M3U8 playlists, including Extended M3U, IPTV and HLS",
   "license": "MIT",
   "author": "Marcus Linder <mlinder@gmail.com>",
