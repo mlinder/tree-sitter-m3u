@@ -49,9 +49,6 @@ pnpm run generate   # regenerate src/ from grammar.js
 pnpm test           # corpus tests + error-free parse of examples/
 ```
 
-pnpm blocks the `tree-sitter-cli` install script by default; if the
-`tree-sitter` binary is missing, run `pnpm approve-builds` and reinstall.
-
 ## License
 
 [MIT](LICENSE)
