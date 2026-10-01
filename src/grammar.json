@@ -674,8 +674,16 @@
                 "name": "variable"
               },
               {
+                "type": "SYMBOL",
+                "name": "escape_sequence"
+              },
+              {
                 "type": "PATTERN",
-                "value": "[^#\\s{]"
+                "value": "[^#\\s{%]"
+              },
+              {
+                "type": "STRING",
+                "value": "%"
               }
             ]
           },
@@ -689,14 +697,26 @@
                   "name": "variable"
                 },
                 {
+                  "type": "SYMBOL",
+                  "name": "escape_sequence"
+                },
+                {
                   "type": "PATTERN",
-                  "value": "[^{\\n]+"
+                  "value": "[^{%\\n]+"
+                },
+                {
+                  "type": "STRING",
+                  "value": "%"
                 }
               ]
             }
           }
         ]
       }
+    },
+    "escape_sequence": {
+      "type": "PATTERN",
+      "value": "%[0-9A-Fa-f]{2}"
     },
     "variable": {
       "type": "TOKEN",

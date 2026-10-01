@@ -162,11 +162,14 @@ module.exports = grammar({
     // Any other line starting with '#'
     comment: _ => token(seq('#', /[^\n]*/)),
 
-    // Media URI, possibly containing {$...} template variables
+    // Media URI, possibly containing {$...} template variables and
+    // percent-encoded characters (%20)
     uri: $ => prec.right(seq(
-      choice($.variable, /[^#\s{]/),
-      repeat(choice($.variable, /[^{\n]+/)),
+      choice($.variable, $.escape_sequence, /[^#\s{%]/, '%'),
+      repeat(choice($.variable, $.escape_sequence, /[^{%\n]+/, '%')),
     )),
+
+    escape_sequence: _ => /%[0-9A-Fa-f]{2}/,
 
     variable: _ => token(prec(1, /\{\$[^}\n]*\}/)),
   },

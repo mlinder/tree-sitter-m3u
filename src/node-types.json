@@ -269,6 +269,10 @@
       "required": false,
       "types": [
         {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }
@@ -310,6 +314,10 @@
     "named": false
   },
   {
+    "type": "%",
+    "named": false
+  },
+  {
     "type": ",",
     "named": false
   },
@@ -331,6 +339,10 @@
   },
   {
     "type": "duration",
+    "named": true
+  },
+  {
+    "type": "escape_sequence",
     "named": true
   },
   {

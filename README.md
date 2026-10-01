@@ -33,7 +33,7 @@ changes.
     (extinf duration: (duration) (attribute)* title: (title))
     (tag …)*
     uri: (uri))
-  (uri)                         ; plain M3U entry
+  (uri (escape_sequence)*)      ; plain M3U entry, %20 escapes
   (comment))
 ```
 
