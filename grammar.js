@@ -17,6 +17,11 @@ module.exports = grammar({
   // line-oriented and consumes line breaks explicitly in `playlist`.
   extras: _ => [/[\t ]/],
 
+  // Zero-width tokens from src/scanner.c that look ahead for a whole
+  // byte range or resolution, so that a plain number or word doesn't
+  // start one.
+  externals: $ => [$._byte_range_start, $._resolution_start],
+
   // Whether the lines after an #EXTINF or #EXT-X-STREAM-INF tag belong to
   // it is only known once a URI (or something else) shows up. Both
   // readings are kept and scored with `prec.dynamic`: +1 for attaching a
@@ -111,6 +116,8 @@ module.exports = grammar({
 
     tag_content: $ => repeat1(choice(
       $.attribute,
+      $.byte_range,
+      $.resolution,
       $.tag_word,
       $.quoted_string,
       ',',
@@ -120,8 +127,26 @@ module.exports = grammar({
     attribute: $ => prec.dynamic(2, seq(
       field('name', $.tag_word),
       '=',
-      field('value', choice($.quoted_string, $.unquoted_value)),
+      field('value', choice($.quoted_string, $.resolution, $.unquoted_value)),
     )),
+
+    // #EXT-X-BYTERANGE:<length>@<offset>
+    byte_range: $ => seq(
+      $._byte_range_start,
+      field('length', $.integer),
+      '@',
+      field('offset', $.integer),
+    ),
+
+    // RESOLUTION=<width>x<height>
+    resolution: $ => seq(
+      $._resolution_start,
+      field('width', $.integer),
+      'x',
+      field('height', $.integer),
+    ),
+
+    integer: _ => /[0-9]+/,
 
     // Bare word in a directive value: EVENT, VOD, AES-128, 416x234...
     tag_word: _ => token(/[^\s"=,]+/),

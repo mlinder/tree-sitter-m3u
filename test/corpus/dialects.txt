@@ -49,7 +49,9 @@ fileSequence266.ts
   (tag
     (tag_name)
     (tag_content
-      (tag_word)))
+      (byte_range
+        (integer)
+        (integer))))
   (uri))
 
 ==================

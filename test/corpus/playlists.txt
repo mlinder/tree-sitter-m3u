@@ -28,7 +28,9 @@ http://example.com/low/index.m3u8
           value: (unquoted_value))
         (attribute
           name: (tag_word)
-          value: (unquoted_value))
+          value: (resolution
+            width: (integer)
+            height: (integer)))
         (attribute
           name: (tag_word)
           value: (quoted_string))))

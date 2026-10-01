@@ -22,7 +22,37 @@
             "named": true
           },
           {
+            "type": "resolution",
+            "named": true
+          },
+          {
             "type": "unquoted_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "byte_range",
+    "named": true,
+    "fields": {
+      "length": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "offset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
             "named": true
           }
         ]
@@ -140,6 +170,32 @@
     }
   },
   {
+    "type": "resolution",
+    "named": true,
+    "fields": {
+      "height": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      },
+      "width": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "tag",
     "named": true,
     "fields": {},
@@ -171,7 +227,15 @@
           "named": true
         },
         {
+          "type": "byte_range",
+          "named": true
+        },
+        {
           "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "resolution",
           "named": true
         },
         {
@@ -258,6 +322,10 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -267,6 +335,10 @@
   },
   {
     "type": "header",
+    "named": true
+  },
+  {
+    "type": "integer",
     "named": true
   },
   {
@@ -288,5 +360,9 @@
   {
     "type": "variable",
     "named": true
+  },
+  {
+    "type": "x",
+    "named": false
   }
 ]

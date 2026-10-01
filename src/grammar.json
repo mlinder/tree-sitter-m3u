@@ -446,6 +446,14 @@
           },
           {
             "type": "SYMBOL",
+            "name": "byte_range"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "resolution"
+          },
+          {
+            "type": "SYMBOL",
             "name": "tag_word"
           },
           {
@@ -500,6 +508,10 @@
                 },
                 {
                   "type": "SYMBOL",
+                  "name": "resolution"
+                },
+                {
+                  "type": "SYMBOL",
                   "name": "unquoted_value"
                 }
               ]
@@ -507,6 +519,68 @@
           }
         ]
       }
+    },
+    "byte_range": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_byte_range_start"
+        },
+        {
+          "type": "FIELD",
+          "name": "length",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "FIELD",
+          "name": "offset",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
+        }
+      ]
+    },
+    "resolution": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_resolution_start"
+        },
+        {
+          "type": "FIELD",
+          "name": "width",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "x"
+        },
+        {
+          "type": "FIELD",
+          "name": "height",
+          "content": {
+            "type": "SYMBOL",
+            "name": "integer"
+          }
+        }
+      ]
+    },
+    "integer": {
+      "type": "PATTERN",
+      "value": "[0-9]+"
     },
     "tag_word": {
       "type": "TOKEN",
@@ -651,7 +725,16 @@
     ]
   ],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_byte_range_start"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_resolution_start"
+    }
+  ],
   "inline": [],
   "supertypes": [],
   "reserved": {}

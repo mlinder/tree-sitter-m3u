@@ -22,7 +22,10 @@ changes.
 (playlist
   (header)                      ; #EXTM3U
   (tag (tag_name) (tag_content  ; #EXT-X-VERSION:7, #EXT-X-MEDIA:…
-    (attribute name: (tag_word) value: (unquoted_value | quoted_string))))
+    (attribute name: (tag_word)
+      value: (unquoted_value | quoted_string | resolution))))
+  (tag (tag_name) (tag_content  ; #EXT-X-BYTERANGE:1024@256000
+    (byte_range length: (integer) offset: (integer))))
   (variant_stream               ; #EXT-X-STREAM-INF and its URI line
     (tag …)
     uri: (uri))
@@ -33,6 +36,9 @@ changes.
   (uri)                         ; plain M3U entry
   (comment))
 ```
+
+`resolution` (`RESOLUTION=1280x720`) has `width` and `height` fields, also
+`integer` nodes. Quoted values (`BYTERANGE="1024@0"`) stay `quoted_string`.
 
 `variant_stream` and `media_segment` group a tag with the URI it applies to,
 with any comments and blank lines (and, for segments, tags such as

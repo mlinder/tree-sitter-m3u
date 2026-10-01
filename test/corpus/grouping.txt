@@ -38,7 +38,9 @@ segment-002.ts
     (tag
       (tag_name)
       (tag_content
-        (tag_word)))
+        (byte_range
+          length: (integer)
+          offset: (integer))))
     (tag
       (tag_name))
     uri: (uri)))
