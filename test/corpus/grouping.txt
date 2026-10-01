@@ -66,28 +66,130 @@ segment.ts
     uri: (uri)))
 
 ==================
-Tags between segments are not part of either
+Segment tags before #EXTINF belong to the segment
 ==================
 
-#EXTINF:6,
-a.ts
+#EXT-X-TARGETDURATION:4
+#EXT-X-PROGRAM-DATE-TIME:2026-10-01T17:52:09.6Z
+#EXT-X-MAP:URI="init.mp4"
+#EXTINF:3.2,
+a.mp4
+#EXT-X-DATERANGE:ID="x",START-DATE="2026-10-01T17:52:12Z"
 #EXT-X-DISCONTINUITY
-#EXTINF:6,
-b.ts
+
+#EXT-X-PROGRAM-DATE-TIME:2026-10-01T17:52:12.8Z
+#EXTINF:3.2,
+b.mp4
+#EXT-X-KEYS:X
+#EXTINF:3.2,
+c.mp4
+#EXT-X-ENDLIST
 
 ---
 
 (playlist
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)))
+  (media_segment
+    program_date_time: (tag
+      (tag_name)
+      (tag_content
+        (tag_word)))
+    (tag
+      (tag_name)
+      (tag_content
+        (attribute
+          name: (tag_word)
+          value: (quoted_string))))
+    (extinf
+      duration: (duration))
+    uri: (uri))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))))
+  (media_segment
+    (tag
+      (tag_name))
+    program_date_time: (tag
+      (tag_name)
+      (tag_content
+        (tag_word)))
+    (extinf
+      duration: (duration))
+    uri: (uri))
+  (tag
+    (tag_name)
+    (tag_content
+      (tag_word)))
   (media_segment
     (extinf
       duration: (duration))
     uri: (uri))
   (tag
-    (tag_name))
+    (tag_name)))
+
+==================
+Low-Latency HLS parts belong to their parent segment
+==================
+
+#EXT-X-PART:DURATION=1.0,URI="a.0.mp4"
+#EXT-X-PART:DURATION=1.0,URI="a.1.mp4"
+#EXTINF:2.0,
+a.mp4
+#EXT-X-PART:DURATION=1.0,URI="b.0.mp4"
+#EXT-X-PRELOAD-HINT:TYPE=PART,URI="b.1.mp4"
+
+---
+
+(playlist
   (media_segment
+    (tag
+      (tag_name)
+      (tag_content
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))
+        (attribute
+          name: (tag_word)
+          value: (quoted_string))))
+    (tag
+      (tag_name)
+      (tag_content
+        (attribute
+          name: (tag_word)
+          value: (unquoted_value))
+        (attribute
+          name: (tag_word)
+          value: (quoted_string))))
     (extinf
       duration: (duration))
-    uri: (uri)))
+    uri: (uri))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string))))
+  (tag
+    (tag_name)
+    (tag_content
+      (attribute
+        name: (tag_word)
+        value: (unquoted_value))
+      (attribute
+        name: (tag_word)
+        value: (quoted_string)))))
 
 ==================
 Plain URIs are not grouped

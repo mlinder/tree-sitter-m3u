@@ -103,6 +103,16 @@
     "type": "media_segment",
     "named": true,
     "fields": {
+      "program_date_time": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "tag",
+            "named": true
+          }
+        ]
+      },
       "uri": {
         "multiple": false,
         "required": false,

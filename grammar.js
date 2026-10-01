@@ -22,15 +22,16 @@ module.exports = grammar({
   // start one.
   externals: $ => [$._byte_range_start, $._resolution_start],
 
-  // Whether the lines after an #EXTINF or #EXT-X-STREAM-INF tag belong to
-  // it is only known once a URI (or something else) shows up. Both
-  // readings are kept and scored with `prec.dynamic`: +1 for attaching a
-  // URI, +1 for every #EXTINF and #EXT-X-STREAM-INF parsed as such. The
-  // second rule stops a segment from absorbing the next #EXTINF as an
-  // ordinary tag.
+  // Whether lines belong to a segment or variant is only known once an
+  // #EXTINF or URI (or something else) shows up. Both readings are kept
+  // and scored with `prec.dynamic`: +1 for attaching a URI, +1 for every
+  // segment tag that leads up to an #EXTINF, +1 for every #EXTINF and
+  // #EXT-X-STREAM-INF parsed as such. The last rule stops a segment from
+  // absorbing the next #EXTINF as an ordinary tag.
   conflicts: $ => [
     [$.media_segment],
     [$.variant_stream],
+    [$.playlist, $._segment_tag],
   ],
 
   rules: {
@@ -39,6 +40,8 @@ module.exports = grammar({
       $.media_segment,
       $.variant_stream,
       $.tag,
+      alias($._program_date_time, $.tag),
+      alias($._other_segment_tag, $.tag),
       $.comment,
       $.uri,
       $._newline,
@@ -52,15 +55,48 @@ module.exports = grammar({
     // #EXTM3U — the extended M3U header
     header: _ => token(prec(1, '#EXTM3U')),
 
-    // #EXTINF, the segment tags that follow it, and the URI they describe.
-    // Also plain M3U and IPTV entries. Without a URI, just the #EXTINF.
+    // A media segment: its Media Segment tags in any order, one of them
+    // #EXTINF, and the URI they describe. Also plain M3U and IPTV entries.
+    // Segment tags before the #EXTINF (#EXT-X-PROGRAM-DATE-TIME, -KEY,
+    // -MAP, -PART, ...) belong to it; playlist tags never do. Without a
+    // URI, the segment ends at its #EXTINF.
     media_segment: $ => seq(
+      repeat(prec.dynamic(1, seq(
+        $._segment_tag,
+        repeat1(choice($._newline, $.comment)),
+      ))),
       $.extinf,
       optional(prec.dynamic(1, seq(
-        repeat1(choice($._newline, $.comment, $.tag)),
+        repeat1(choice($._newline, $.comment, $.tag, $._segment_tag)),
         field('uri', $.uri),
       ))),
     ),
+
+    // The Media Segment tags other than #EXTINF (draft-pantos-hls-rfc8216bis
+    // 4.4.4), as ordinary `tag` nodes. #EXT-X-PROGRAM-DATE-TIME is also a
+    // field, so that queries can show a segment's time.
+    _segment_tag: $ => choice(
+      field('program_date_time', alias($._program_date_time, $.tag)),
+      alias($._other_segment_tag, $.tag),
+    ),
+
+    _program_date_time: $ => prec.right(seq(
+      alias(token(prec(1, '#EXT-X-PROGRAM-DATE-TIME')), $.tag_name),
+      optional(seq(':', optional($.tag_content))),
+    )),
+
+    _other_segment_tag: $ => prec.right(seq(
+      alias(choice(
+        token(prec(1, '#EXT-X-BYTERANGE')),
+        token(prec(1, '#EXT-X-DISCONTINUITY')),
+        token(prec(1, '#EXT-X-KEY')),
+        token(prec(1, '#EXT-X-MAP')),
+        token(prec(1, '#EXT-X-GAP')),
+        token(prec(1, '#EXT-X-BITRATE')),
+        token(prec(1, '#EXT-X-PART')),
+      ), $.tag_name),
+      optional(seq(':', optional($.tag_content))),
+    )),
 
     // #EXT-X-STREAM-INF and the next URI line, the variant's Media Playlist.
     // Without a URI, just the tag.

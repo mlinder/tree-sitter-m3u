@@ -29,7 +29,9 @@ changes.
   (variant_stream               ; #EXT-X-STREAM-INF and its URI line
     (tag …)
     uri: (uri))
-  (media_segment                ; #EXTINF, following tags, URI line
+  (media_segment                ; segment tags, #EXTINF, URI line
+    program_date_time: (tag …)  ; #EXT-X-PROGRAM-DATE-TIME
+    (tag …)*                    ; #EXT-X-KEY, -MAP, -PART, …
     (extinf duration: (duration) (attribute)* title: (title))
     (tag …)*
     uri: (uri))
@@ -41,9 +43,17 @@ changes.
 `integer` nodes. Quoted values (`BYTERANGE="1024@0"`) stay `quoted_string`.
 
 `variant_stream` and `media_segment` group a tag with the URI it applies to,
-with any comments and blank lines (and, for segments, tags such as
-`#EXT-X-BYTERANGE`) in between. Without a following URI they contain only the
-tag, and `uri` is absent.
+with any comments and blank lines in between. A media segment is "a series
+of Media Segment tags followed by a URI" (draft-pantos-hls-rfc8216bis
+4.4.4), so it starts at the first segment tag after the previous URI:
+`#EXT-X-PROGRAM-DATE-TIME`, `-BYTERANGE`, `-DISCONTINUITY`, `-KEY`, `-MAP`,
+`-GAP`, `-BITRATE` or `-PART` (Low-Latency HLS parts thus sit in their parent
+segment). Other tags, such as `#EXT-X-DATERANGE` or `#EXT-X-ENDLIST`, stay
+on their own before the `#EXTINF`; after it, any tag up to the URI belongs
+to the segment. Without a following URI, a segment ends at its `#EXTINF`,
+and segment tags with no `#EXTINF` after them (the last parts of a live
+playlist) stay on their own. `#EXT-X-KEY`, `-MAP` and `-BITRATE` also apply
+to later segments; the tree only shows where they appear.
 
 Used by the [M3U extension for Zed](https://github.com/mlinder/zed-m3u).
 
