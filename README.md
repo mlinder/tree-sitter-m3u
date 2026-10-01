@@ -56,6 +56,8 @@ playlist) stay on their own. `#EXT-X-KEY`, `-MAP` and `-BITRATE` also apply
 to later segments; the tree only shows where they appear.
 
 Used by the [M3U extension for Zed](https://github.com/mlinder/zed-m3u).
+`queries/highlights.scm` is its highlight query, with Zed's capture names,
+for other tree-sitter hosts.
 
 ## Development
 
