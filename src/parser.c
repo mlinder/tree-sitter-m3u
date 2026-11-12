@@ -5903,7 +5903,7 @@ TS_PUBLIC const TSLanguage *tree_sitter_m3u(void) {
     .metadata = {
       .major_version = 1,
       .minor_version = 2,
-      .patch_version = 0,
+      .patch_version = 1,
     },
   };
   return &language;
