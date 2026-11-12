@@ -3,3 +3,5 @@
 src/*.json linguist-generated
 src/parser.c linguist-generated
 src/tree_sitter/* linguist-generated
+bindings/node/* linguist-generated
+binding.gyp linguist-generated

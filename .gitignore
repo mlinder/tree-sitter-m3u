@@ -2,6 +2,8 @@ node_modules/
 .pnpm-store/
 .ts-cache/
 build/
+prebuilds/
+*.tgz
 *.wasm
 *.so
 *.dylib

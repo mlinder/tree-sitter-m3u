@@ -59,13 +59,52 @@ Used by the [M3U extension for Zed](https://github.com/mlinder/zed-m3u).
 `queries/highlights.scm` is its highlight query, with Zed's capture names,
 for other tree-sitter hosts.
 
+## Use
+
+```sh
+npm install tree-sitter-m3u
+```
+
+In Node, with [`tree-sitter`](https://www.npmjs.com/package/tree-sitter)
+0.25 or later:
+
+```js
+const Parser = require('tree-sitter')
+const M3u = require('tree-sitter-m3u')
+
+const parser = new Parser()
+parser.setLanguage(M3u)
+const tree = parser.parse('#EXTM3U\n#EXTINF:4,\nsegment.ts\n')
+```
+
+The package ships prebuilt binaries for Linux, macOS and Windows (x64 and
+arm64), so installing it compiles nothing.
+
+In browsers, with
+[`web-tree-sitter`](https://www.npmjs.com/package/web-tree-sitter) 0.25 or
+later, load `tree-sitter-m3u.wasm`, also in the package. With Vite:
+
+```js
+import { Language, Parser, Query } from 'web-tree-sitter'
+import wasmUrl from 'tree-sitter-m3u/tree-sitter-m3u.wasm?url'
+import highlights from 'tree-sitter-m3u/queries/highlights.scm?raw'
+
+await Parser.init()
+const language = await Language.load(wasmUrl)
+const query = new Query(language, highlights)
+```
+
 ## Development
 
 ```sh
-pnpm install
+pnpm install        # also builds the Node binding
 pnpm run generate   # regenerate src/ from grammar.js
-pnpm test           # corpus tests + error-free parse of examples/
+pnpm test           # corpus tests, examples/, Node binding
+pnpm run build:wasm # tree-sitter-m3u.wasm
 ```
+
+A `v*` tag builds the binaries and the Wasm file and publishes to npm
+(`.github/workflows/release.yml`).
 
 ## License
 

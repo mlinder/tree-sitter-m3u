@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-m3u",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Tree-sitter grammar for M3U and M3U8 playlists, including Extended M3U, IPTV and HLS",
   "license": "MIT",
   "author": "Marcus Linder <mlinder@gmail.com>",
@@ -9,13 +9,41 @@
     "url": "git+https://github.com/mlinder/tree-sitter-m3u.git"
   },
   "keywords": ["tree-sitter", "parser", "m3u", "m3u8", "hls", "playlist"],
-  "private": true,
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "files": [
+    "grammar.js",
+    "tree-sitter.json",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**",
+    "*.wasm"
+  ],
   "scripts": {
+    "install": "node-gyp-build",
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse",
-    "test": "tree-sitter test && tree-sitter parse --quiet examples/*"
+    "build:wasm": "tree-sitter build --wasm",
+    "test": "tree-sitter test && tree-sitter parse --quiet examples/* && node --test bindings/node/*_test.js"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.5.0",
+    "node-gyp-build": "^4.8.4"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.25.0"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.25.10"
+    "node-gyp": "13.1.0",
+    "prebuildify": "6.0.1",
+    "tree-sitter": "0.25.1",
+    "tree-sitter-cli": "0.27.2"
   }
 }

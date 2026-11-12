@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  wasm:
+    name: Wasm
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Build
+        run: npx --yes tree-sitter-cli@0.27.2 build --wasm
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wasm
+          path: "*.wasm"
+          if-no-files-found: error
+
+  node:
+    name: Node binding on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          - macos-15
+          - macos-15-intel
+          - windows-2022
+          - windows-11-arm
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Install dependencies
+        run: npx --yes pnpm@12.18.0 install --frozen-lockfile --ignore-scripts
+      # Node-API, so one binary per platform serves every Node version
+      - name: Build
+        run: npx --yes pnpm@12.18.0 exec prebuildify --napi -t 20.19.5 ${{ runner.os != 'Windows' && '--strip' || '' }}
+      - name: Test
+        run: node --test bindings/node/*_test.js
+      - uses: actions/upload-artifact@v7
+        with:
+          name: prebuilds-${{ matrix.os }}
+          path: prebuilds/**
+          if-no-files-found: error
+
+  publish:
+    name: Publish to npm
+    needs: [wasm, node]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          registry-url: https://registry.npmjs.org
+      - uses: actions/download-artifact@v8
+        with:
+          path: prebuilds
+          pattern: prebuilds-*
+          merge-multiple: true
+      - uses: actions/download-artifact@v8
+        with:
+          name: wasm
+      - name: Tag matches package.json
+        run: test "v$(jq -r .version package.json)" = "$GITHUB_REF_NAME"
+      - name: Pack
+        run: |
+          find prebuilds -type f
+          npm pack --ignore-scripts
+      - uses: actions/upload-artifact@v7
+        with:
+          name: package
+          path: "*.tgz"
+          if-no-files-found: error
+      # Trusted publishing (OIDC) can only be set up once the package exists
+      # on npm, so the first release is published by hand from the
+      # "package" artifact.
+      - name: Publish
+        if: vars.NPM_TRUSTED_PUBLISHING == 'true'
+        run: npm publish --ignore-scripts ./*.tgz

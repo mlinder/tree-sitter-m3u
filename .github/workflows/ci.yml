@@ -15,9 +15,13 @@ jobs:
           node-version: lts/*
       - name: Generated parser is up to date
         run: |
-          npx --yes tree-sitter-cli@0.25.10 generate
+          npx --yes tree-sitter-cli@0.27.2 generate
           git diff --exit-code src/
       - name: Corpus tests
-        run: npx --yes tree-sitter-cli@0.25.10 test
+        run: npx --yes tree-sitter-cli@0.27.2 test
       - name: Examples parse without errors
-        run: npx --yes tree-sitter-cli@0.25.10 parse --quiet examples/*
+        run: npx --yes tree-sitter-cli@0.27.2 parse --quiet examples/*
+      - name: Node binding
+        run: |
+          npx --yes pnpm@12.18.0 install --frozen-lockfile
+          node --test bindings/node/*_test.js
