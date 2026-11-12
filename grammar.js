@@ -10,6 +10,17 @@
  * variables.
  */
 
+// Tree-sitter regexes have no lookahead, so "any line but one starting with
+// EXT" is spelled out: `E`, `EX`, and lines that leave EXT after E or EX.
+function notPrefix(word) {
+  const patterns = [];
+  for (let i = 1; i < word.length; i++) {
+    patterns.push(word.slice(0, i));
+    patterns.push(new RegExp(`${word.slice(0, i)}[^${word[i]}\\n][^\\n]*`));
+  }
+  return patterns;
+}
+
 module.exports = grammar({
   name: 'm3u',
 
@@ -195,8 +206,14 @@ module.exports = grammar({
     // (e.g. CODECS="avc1.42e00a,mp4a.40.2").
     quoted_string: _ => token(seq('"', repeat(choice(/[^"\\\n]/, /\\./)), '"')),
 
-    // Any other line starting with '#'
-    comment: _ => token(seq('#', /[^\n]*/)),
+    // Any other line starting with '#'. Lines starting with #EXT or
+    // #PLAYLIST are tags even where no tag is expected (between a segment
+    // tag and #EXTINF), so the parser can't read them as comments.
+    comment: _ => token(seq('#', optional(choice(
+      /[^EP\n][^\n]*/,
+      ...notPrefix('EXT'),
+      ...notPrefix('PLAYLIST'),
+    )))),
 
     // Media URI, possibly containing {$...} template variables and
     // percent-encoded characters (%20)

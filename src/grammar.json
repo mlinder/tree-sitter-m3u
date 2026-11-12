@@ -914,8 +914,93 @@
             "value": "#"
           },
           {
-            "type": "PATTERN",
-            "value": "[^\\n]*"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "PATTERN",
+                    "value": "[^EP\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "E"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "E[^X\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "EX"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "EX[^T\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "P"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "P[^L\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "PL"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "PL[^A\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "PLA"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "PLA[^Y\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "PLAY"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "PLAY[^L\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "PLAYL"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "PLAYL[^I\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "PLAYLI"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "PLAYLI[^S\\n][^\\n]*"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "PLAYLIS"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "PLAYLIS[^T\\n][^\\n]*"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }

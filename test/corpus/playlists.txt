@@ -124,3 +124,32 @@ Enum value and comment
     (tag_content
       (tag_word)))
   (comment))
+
+==================
+Comments that start like tags
+==================
+
+#
+#E
+#EX
+#Extended
+#EXtra
+#P
+#PLAY
+#PLAYLIS
+#Playlist
+#PLAYLIS-T
+
+---
+
+(playlist
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment)
+  (comment))
