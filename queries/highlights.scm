@@ -78,8 +78,9 @@
 ; Byte ranges (1024@256000) and resolutions (1280x720)
 (byte_range (integer) @number)
 (byte_range "@" @punctuation.delimiter)
-(resolution (integer) @number)
-(resolution "x" @punctuation.delimiter)
+; One capture for the whole value: Zed shapes each highlight span on its
+; own, so a separately coloured x would lose the font's 416×234 ligature
+(resolution) @number
 
 ; Enumerated strings: AUDIO, YES, PQ, AES-128, VOD, …
 ((attribute value: (unquoted_value) @constant @variant)
