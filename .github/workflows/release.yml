@@ -86,9 +86,8 @@ jobs:
           name: package
           path: "*.tgz"
           if-no-files-found: error
-      # Trusted publishing (OIDC) can only be set up once the package exists
-      # on npm, so the first release is published by hand from the
-      # "package" artifact.
-      - name: Publish
+      # The trusted publisher may only stage; a maintainer approves each
+      # version with 2FA on npmjs.com.
+      - name: Stage on npm
         if: vars.NPM_TRUSTED_PUBLISHING == 'true'
-        run: npm publish --ignore-scripts ./*.tgz
+        run: npm stage publish ./*.tgz
